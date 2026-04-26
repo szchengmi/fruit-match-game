@@ -1,0 +1,438 @@
+/* 样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #2c3e50;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 1000px; /* 增大最大宽度 */
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+/* 屏幕管理 */
+.screen {
+    display: none;
+    padding: 40px;
+    text-align: center;
+}
+
+.screen.active {
+    display: block;
+}
+
+/* 菜单界面 */
+#menu-screen h1 {
+    font-size: 3em;
+    margin-bottom: 40px;
+    color: #2c3e50;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+/* 按钮样式 */
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 10px;
+    font-size: 1.1em;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, #3498db, #2980b9);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(45deg, #2980b9, #1f4e79);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+    color: white;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(45deg, #7f8c8d, #5d6d7e);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(149, 165, 166, 0.4);
+}
+
+.btn-small {
+    padding: 8px 16px;
+    font-size: 0.9em;
+}
+
+/* 游戏界面 */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+}
+
+.score-board {
+    display: flex;
+    gap: 30px;
+}
+
+.score-item {
+    text-align: center;
+}
+
+.score-item .label {
+    display: block;
+    font-size: 0.9em;
+    color: #7f8c8d;
+    margin-bottom: 5px;
+}
+
+.score-item .value {
+    display: block;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #2c3e50;
+}
+.game-board {
+    display: grid;
+    gap: 5px;
+    padding: 10px;
+    background: #ecf0f1;
+    border-radius: 15px;
+    margin: 0 auto 20px;
+    max-width: 600px; /* 增大桌面大小 */
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.cell {
+    width: 75px;
+    height: 75px;
+    border: 3px solid transparent; /* 默认添加透明边框 */
+    border-radius: 12px;
+    background: #f8f9fa;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    position: relative;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.cell.level-up {
+    animation: levelUp 1s ease-in-out;
+}
+
+.cell:hover {
+    background: #e8f5e8;
+    border: 3px solid #3498db; /* 添加亮色边框 */
+    box-shadow: 0 0 15px rgba(52, 152, 219, 0.3); /* 添加发光效果 */
+}
+
+.cell:active {
+    background: #d5f5d5;
+    border: 3px solid #27ae60; /* 点击时的边框颜色 */
+}
+
+.cell.highlight {
+    background: #fff3cd;
+    border: 3px solid #ffc107;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.5);
+}
+
+.cell.matching {
+    animation: matchPulse 0.3s ease;
+}
+
+.cell.matching {
+    animation: matchPulse 0.3s ease;
+}
+
+/* 消除动画 - 使用纯样式效果，避免任何移动 */
+@keyframes matchPulse {
+    0% { 
+        opacity: 1; 
+    }
+    50% { 
+        opacity: 0.3; 
+    }
+    100% { 
+        opacity: 0; 
+    }
+}
+
+/* 新水果进场动画 - 禁用移动，只有透明度变化 */
+@keyframes fruitDrop {
+    0% { 
+        opacity: 0; 
+    }
+    100% { 
+        opacity: 1; 
+    }
+}
+
+/* 挑战通关动画 */
+@keyframes levelUp {
+    0% { 
+        transform: scale(1) rotate(0deg); 
+        filter: brightness(1); 
+    }
+    25% { 
+        transform: scale(1.1) rotate(5deg); 
+        filter: brightness(1.3); 
+    }
+    50% { 
+        transform: scale(1.2) rotate(-5deg); 
+        filter: brightness(1.5); 
+    }
+    75% { 
+        transform: scale(1.1) rotate(3deg); 
+        filter: brightness(1.3); 
+    }
+    100% { 
+        transform: scale(1) rotate(0deg); 
+        filter: brightness(1); 
+    }
+}
+
+/* 特效动画 */
+@keyframes bombExplosion {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.8); 
+    }
+    70% { 
+        box-shadow: 0 0 0 30px rgba(255, 107, 107, 0); 
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); 
+    }
+}
+
+@keyframes lightningStrike {
+    0%, 100% { 
+        background: white; 
+        filter: brightness(1); 
+    }
+    50% { 
+        background: #f1c40f; 
+        filter: brightness(2); 
+    }
+}
+
+.fruit {
+    font-size: 2.5em; /* 增大字体大小以适应更大的图片 */
+    user-select: none;
+    transition: transform 0.2s ease;
+    /* 移除统一动画，由JavaScript控制 */
+}
+
+.fruit-image {
+    width: 85%; /* 增大图片大小 */
+    height: 85%;
+    object-fit: contain;
+    border-radius: 12px; /* 改为圆角12px */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: none; /* 禁用改变 */
+    /* 移除统一动画，由JavaScript控制 */
+}
+
+.cell:hover .fruit {
+    /* 禁用改变，不放大 */
+}
+
+.cell:hover .fruit-image {
+    /* 禁用改变，不放大 */
+}
+
+/* 特殊助手 */
+.power-ups {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.power-up-btn {
+    padding: 10px 20px;
+    border: 2px solid #3498db;
+    background: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+}
+
+.power-up-btn:hover:not(:disabled) {
+    background: #3498db;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.power-up-btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.power-up-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    border-color: #bdc3c7;
+    transform: none;
+    box-shadow: none;
+}
+
+.power-up-btn.bomb-active {
+    animation: bombExplosion 0.6s ease-out;
+}
+
+.power-up-btn.lightning-active {
+    animation: lightningStrike 0.5s ease-in-out;
+}
+
+.power-up-btn .count {
+    background: #e74c3c;
+    color: white;
+    border-radius: 50%;
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+/* 游戏结束界面 */
+#game-result {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+}
+
+.final-stats {
+    background: #f8f9fa;
+    padding: 30px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.stat-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.stat-item:last-child {
+    margin-bottom: 0;
+}
+
+.stat-item .label {
+    color: #7f8c8d;
+}
+
+.stat-item .value {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.game-over-buttons {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* 暂停界面 */
+#pause-screen h2 {
+    font-size: 2em;
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.pause-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    max-width: 250px;
+    margin: 0 auto;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    #game-container {
+        margin: 20px;
+        max-width: none;
+    }
+    
+    .screen {
+        padding: 20px;
+    }
+    
+    #menu-screen h1 {
+        font-size: 2em;
+    }
+    
+    .game-header {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .score-board {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+    }
+    
+    .game-board {
+        max-width: 100%;
+        padding: 10px;
+    }
+    
+    .fruit {
+        font-size: 1.5em;
+    }
+    
+    .power-ups {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    
+    .game-over-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
